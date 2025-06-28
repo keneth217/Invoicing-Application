@@ -1,0 +1,34 @@
+package com.app.invoice.controller;
+
+import com.app.invoice.dto.ReceiptResponse;
+import com.app.invoice.serviceImpl.ReceiptService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/v1/receipts")
+public class ReceiptController {
+
+
+    private final ReceiptService receiptService;
+
+    public ReceiptController(ReceiptService receiptService) {
+        this.receiptService = receiptService;
+    }
+
+    @PostMapping("all")
+    public ResponseEntity<List<ReceiptResponse>> getAllReceipts() {
+        List<ReceiptResponse> receipts = receiptService.getAllReceipts();
+        return ResponseEntity.ok(receipts);
+    }
+    @PostMapping("by-voucher")
+    public ResponseEntity<List<ReceiptResponse>> getReceiptsByPaymentVoucherId(@RequestBody Long paymentVoucherId) {
+        List<ReceiptResponse> receipts = receiptService.getReceiptsByPaymentVoucherId(paymentVoucherId);
+        return ResponseEntity.ok(receipts);
+    }
+}
