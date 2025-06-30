@@ -29,7 +29,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<CustomerResponse> getAllCustomers() {
-        List<Customer> customerList = customerRepository.findAll();
+        List<Customer> customerList = customerRepository.findAllByDeletedFalse();
         return customerList.stream()
                 .map(CustomerMapper::toResponse)
                 .toList();
