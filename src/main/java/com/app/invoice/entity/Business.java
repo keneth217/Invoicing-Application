@@ -15,13 +15,14 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Company {
+public class Business {
     // Unique identifier for the company
     @Id
     @GeneratedValue
     private UUID id;
     private String name;
     private String email;
+    private String businessCode;
     private String phone;
     private String address;
     private String city;
@@ -29,5 +30,6 @@ public class Company {
     private String country;
     private String zipCode;
     private  String imageUrl;
+    private boolean deleted = false;
 
 }
