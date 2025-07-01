@@ -8,4 +8,5 @@ import java.util.UUID;
 
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
     List<Customer> findAllByDeletedFalse();
+    int countByDeletedFalse();
 }
