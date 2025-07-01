@@ -57,6 +57,7 @@ public class PaymentVoucherServicempl implements PaymentVoucherService {
 
         BigDecimal totalInvoiceAmount = invoice.getTotalAmount();
         BigDecimal currentPayment = paymentVoucherRequest.getAmountPaid();
+        System.out.println(totalInvoiceAmount);
 
 // Calculate total paid so far
         BigDecimal totalPaidSoFar = invoice.getPaymentVouchers() != null
