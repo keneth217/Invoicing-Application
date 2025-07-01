@@ -3,6 +3,7 @@ package com.app.invoice.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -13,7 +14,7 @@ public class DashboardStatsResponse {
     private long totalReceipts;
     private long totalVouchers;
     private double totalSales;
-    private double totalPayments;
+    private BigDecimal totalPayments;
     private double totalExpenses;
     private double totalProfit;
     private List<InvoiceResponse> recentInvoices;
@@ -22,6 +23,6 @@ public class DashboardStatsResponse {
     private  long expiredInvoicesCount;
     private long overdueInvoicesCount;
     private long upcomingInvoicesCount;
-
     private List<MonthlyStatsResponse> monthlyStats;
+    private List<LedgerTransactionResponse> recentTransactions;
 }
