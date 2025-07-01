@@ -28,14 +28,17 @@ public class DashboardServiceImpl implements DashboardService {
     private final ReceiptRepository receiptRepository;
     private final PaymentVoucherRepository paymentVoucherRepository;
 
+    private final LedgerRepository ledgerTransactionRepository;
+
     public DashboardServiceImpl(CustomerRepository customerRepository,
                                 InvoiceRepository invoiceRepository,
                                 ReceiptRepository receiptRepository,
-                                PaymentVoucherRepository paymentVoucherRepository) {
+                                PaymentVoucherRepository paymentVoucherRepository, LedgerRepository ledgerTransactionRepository) {
         this.customerRepository = customerRepository;
         this.invoiceRepository = invoiceRepository;
         this.receiptRepository = receiptRepository;
         this.paymentVoucherRepository = paymentVoucherRepository;
+        this.ledgerTransactionRepository = ledgerTransactionRepository;
     }
 
     @Override
@@ -59,12 +62,24 @@ public class DashboardServiceImpl implements DashboardService {
                 .filter(Objects::nonNull)
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
                 .doubleValue();
-
-        double totalPayments = allVouchers.stream()
+        //total of amount paid in vouchers
+        BigDecimal totalPayments = paymentVoucherRepository.findAll().stream()
                 .map(PaymentVoucher::getAmountPaid)
                 .filter(Objects::nonNull)
-                .reduce(BigDecimal.ZERO, BigDecimal::add)
-                .doubleValue();
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        System.out.println("Total payments: " + totalPayments);
+
+        System.out.println("Total Sales: " + totalSales);
+        System.out.println("Total Payments: " + totalPayments);
+        //show total of payments  and invoices
+
+//show recent 5 transactions from ledger
+        List<LedgerTransactionResponse> recentTransaction = ledgerTransactionRepository.findTop5ByOrderByTransactionDateDesc()
+                .stream().map(LedgerMapper::toTransactionResponse).toList();
+
+
+
 
         double totalExpenses = 0.0;
         double totalProfit = totalSales - totalExpenses;
@@ -80,10 +95,14 @@ public class DashboardServiceImpl implements DashboardService {
                             .filter(Objects::nonNull)
                             .reduce(BigDecimal.ZERO, BigDecimal::add);
                     BigDecimal monthlyPayments = allVouchers.stream()
+                            .filter(voucher -> voucher.getPaymentDate() != null)
                             .filter(voucher -> yearMonth.equals(YearMonth.from(voucher.getPaymentDate())))
                             .map(PaymentVoucher::getAmountPaid)
                             .filter(Objects::nonNull)
                             .reduce(BigDecimal.ZERO, BigDecimal::add);
+                    System.out.println("Monthly Invoice Total for " + yearMonth + ": " + monthlyInvoiceTotal);
+                    System.out.println("Monthly Payments for " + yearMonth + ": " + monthlyPayments);
+
                     MonthlyStatsResponse response = new MonthlyStatsResponse();
                     response.setMonth(yearMonth.getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH));
                     response.setTotalInvoice(monthlyInvoiceTotal);
@@ -113,7 +132,8 @@ public class DashboardServiceImpl implements DashboardService {
                 invoiceRepository.countByDueDateBeforeAndStatusNot(today, "PAID"),
                 invoiceRepository.countByDueDateBeforeAndStatus(today.plusDays(7), "UNPAID"),
                 invoiceRepository.countByDueDateAfter(today),
-                monthlyStats
+                monthlyStats,
+                recentTransaction
         );
     }
 }
