@@ -30,6 +30,19 @@ public class Business {
     private String country;
     private String zipCode;
     private  String imageUrl;
+    private String website;
+    private String taxId = "N/A";
+    private String currency = "KSH";
+    private String  invoicePrefix = "INV-";
+    private String invoiceFooter = "Thank you for your business!";
+    private String invoiceTerms = "Payment is due within 30 days.";
+    private String invoiceNote = "If you have any questions, please contact us.";
+    private String receiptPrefix = "RCT-";
+    private String receiptFooter = "Thank you for your payment!";
+    private String receiptTerms = "Payment is due within 30 days.";
+    private String receiptNote = "If you have any questions, please contact us.";
+    private String voucherPrefix = "VCH-";
+    private String currencySymbol = "KSH";
     private boolean deleted = false;
 
 }
