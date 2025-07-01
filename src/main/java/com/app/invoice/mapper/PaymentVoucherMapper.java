@@ -5,6 +5,7 @@ import com.app.invoice.dto.PaymentVoucherRequest;
 import com.app.invoice.dto.PaymentVoucherResponse;
 import com.app.invoice.entity.PaymentVoucher;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class PaymentVoucherMapper {
@@ -26,7 +27,8 @@ public class PaymentVoucherMapper {
                 .amountPaid(paymentVoucher.getAmountPaid())
                 .paymentDate(paymentVoucher.getPaymentDate())
                 .voucherNumber(paymentVoucher.getVoucherNumber())
-
+                .referenceNumber(paymentVoucher.getReferenceNumber())
+                .paymentDate(LocalDate.now())
                 .invoice(paymentVoucher.getInvoice())
 
                 .build();
