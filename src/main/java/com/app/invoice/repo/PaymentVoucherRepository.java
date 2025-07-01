@@ -4,6 +4,7 @@ import com.app.invoice.entity.PaymentVoucher;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Arrays;
 import java.util.List;
 
 public interface PaymentVoucherRepository  extends JpaRepository<PaymentVoucher, Long> {
@@ -12,4 +13,5 @@ public interface PaymentVoucherRepository  extends JpaRepository<PaymentVoucher,
 
     List<PaymentVoucher> findAllByDeletedFalse();
 
+    List<PaymentVoucher> findTop5ByOrderByPaymentDateDesc();
 }
