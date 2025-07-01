@@ -5,6 +5,7 @@ import com.app.invoice.entity.Receipt;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Arrays;
 import java.util.List;
 
 public interface ReceiptRepository extends JpaRepository<Receipt, Long> {
@@ -15,4 +16,7 @@ public interface ReceiptRepository extends JpaRepository<Receipt, Long> {
     List<Receipt> findAllByDeletedFalse();
     List<Receipt> findAllByPaymentVoucherAndDeletedFalse(PaymentVoucher paymentVoucher);
 
+
+    long countByDeletedFalse();
+    List<Receipt> findTop5ByOrderByIssueDateDesc();
 }
