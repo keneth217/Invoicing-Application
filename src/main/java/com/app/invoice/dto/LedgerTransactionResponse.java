@@ -21,6 +21,7 @@ public class LedgerTransactionResponse {
     private String description;
     private BigDecimal runningBalance;
     private LedgerSummary ledgerSummary;
+    private String paymentMethod; // CASH, BANK_TRANSFER, CHEQUE, CREDIT_CARD, etc.
 
 }
 
