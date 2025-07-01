@@ -18,4 +18,6 @@ public interface BusinessRepository extends JpaRepository<Business,Long> {
     boolean existsByName(String name);
 
     boolean existsByBusinessCode(String businessCode);
+
+    Optional <Business> findByDeletedFalse();
 }
