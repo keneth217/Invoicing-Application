@@ -32,6 +32,21 @@ public class BusinessServiceImpl implements BusinessService {
         String code = businessCodeGenerator.generate();
         System.out.println("Generated code: " + code); // verify this
         businessRequest.setBusinessCode(code);
+        businessRequest.setInvoicePrefix("INV-");
+        businessRequest.setReceiptPrefix("RCT-");
+        businessRequest.setVoucherPrefix("VCH-");
+        businessRequest.setCurrencySymbol("KES");
+        businessRequest.setDeleted(false);
+        businessRequest.setInvoiceFooter("Thank you for your business!");
+        businessRequest.setInvoiceTerms("Payment is due within 30 days.");
+        businessRequest.setInvoiceNote("If you have any questions, please contact us.");
+        businessRequest.setReceiptFooter("Thank you for your payment!");
+        businessRequest.setReceiptTerms("Payment is due within 30 days.");
+        businessRequest.setReceiptNote("If you have any questions, please contact us.");
+        businessRequest.setWebsite("https://www.example.com");
+
+
+
 
         //check if the business code is already in use and exists
         if (businessRepository.existsByBusinessCode(businessRequest.getBusinessCode())) {
@@ -98,5 +113,34 @@ public class BusinessServiceImpl implements BusinessService {
         Business business = businessRepository.findByBusinessCode(businessCode)
                 .orElseThrow(() -> new NotFoundException("Company not found with code: " + businessCode));
         return BusinessMapper.toCompanyResponse(business);
+    }
+
+    @Override
+    public BusinessResponse updateBusinessSettings(Long id, BusinessRequest businessRequest) {
+    Business existingBusinessSettings = businessRepository.findById(id)
+            .orElseThrow(() -> new NotFoundException("Company not found with id: " + id));
+    // Update the business settings with new values
+        existingBusinessSettings.setCurrency(businessRequest.getCurrencySymbol());
+        existingBusinessSettings.setInvoicePrefix(businessRequest.getInvoicePrefix());
+        existingBusinessSettings.setInvoiceFooter(businessRequest.getInvoiceFooter());
+        existingBusinessSettings.setInvoiceTerms(businessRequest.getInvoiceTerms());
+        existingBusinessSettings.setInvoiceNote(businessRequest.getInvoiceNote());
+        existingBusinessSettings.setReceiptPrefix(businessRequest.getReceiptPrefix());
+        existingBusinessSettings.setReceiptFooter(businessRequest.getReceiptFooter());
+        existingBusinessSettings.setReceiptTerms(businessRequest.getReceiptTerms());
+        existingBusinessSettings.setReceiptNote(businessRequest.getReceiptNote());
+    // Save the updated business entity
+        businessRepository.save(existingBusinessSettings);
+
+        return BusinessMapper.toCompanyResponse(existingBusinessSettings);
+    }
+
+    @Override
+    public BusinessResponse getCurrentSettings() {
+
+        Business business = businessRepository.findByDeletedFalse()
+                .orElseThrow(() -> new NotFoundException("No active business found"));
+        return BusinessMapper.toCompanyResponse(business);
+
     }
 }
