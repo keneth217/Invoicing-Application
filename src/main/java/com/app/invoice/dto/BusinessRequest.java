@@ -17,4 +17,16 @@ public class BusinessRequest {
     private String country;
     private String zipCode;
     private  String imageUrl;
+    private  String website;
+    private String  invoicePrefix;
+    private String invoiceFooter;
+    private String invoiceTerms;
+    private String invoiceNote;
+    private String receiptPrefix;
+    private String receiptFooter;
+    private String receiptTerms;
+    private String receiptNote;
+    private String voucherPrefix;
+    private String currencySymbol;
+    private boolean deleted = false;
 }
