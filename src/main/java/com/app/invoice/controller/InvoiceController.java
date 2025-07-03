@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/api/v1/invoices")
+
+
 public class InvoiceController {
 
     private final InvoiceService invoiceService;
