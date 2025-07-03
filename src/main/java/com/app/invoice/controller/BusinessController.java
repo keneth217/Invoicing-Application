@@ -25,6 +25,12 @@ public class BusinessController {
         BusinessResponse response = businessService.createCompany(businessRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+    @PostMapping("/details")
+    public ResponseEntity<BusinessResponse> businessDetails() {
+        BusinessResponse response = businessService.getBusinessDetails();
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
     @PostMapping("/getAll")
     public ResponseEntity<List<BusinessResponse>> getAllBusinesses() {
         List<BusinessResponse> response = businessService.getAllCompanies();

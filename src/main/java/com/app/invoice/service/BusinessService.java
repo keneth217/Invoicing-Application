@@ -9,6 +9,7 @@ import java.util.List;
 public interface BusinessService {
     BusinessResponse createCompany(BusinessRequest businessRequest);
     List<BusinessResponse> getAllCompanies();
+    BusinessResponse getBusinessDetails();
     BusinessResponse getCompanyById(Long id);
     BusinessResponse updateCompany(Long id, BusinessRequest businessRequest);
     BusinessResponse deleteCompany(Long id);

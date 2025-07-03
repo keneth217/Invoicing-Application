@@ -72,6 +72,15 @@ public class BusinessServiceImpl implements BusinessService {
     }
 
     @Override
+    public BusinessResponse getBusinessDetails() {
+        // Fetch the first business that is not deleted
+        Business business = businessRepository.findByDeletedFalse()
+                .orElseThrow(() -> new NotFoundException("No active business found"));
+        return BusinessMapper.toCompanyResponse(business);
+
+    }
+
+    @Override
     public BusinessResponse getCompanyById(Long id) {
         Business business = businessRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Company not found with id: " + id));
